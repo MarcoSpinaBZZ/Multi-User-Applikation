@@ -7,14 +7,14 @@ Das Projekt kann von [GitHub](https://github.com/MarcoSpinaBZZ/Multi-User-Applik
 ## Applikationsdokumentation
 Die Applikationsdokumentation finden sie im Ordner [./doc](./doc/appDoc.md).
 
-## Die Applikation staren
+## Die Applikation starten
 Laden sie das Projekt in einen Editor ihrer Wahl und lassen sie [UserApplication.java](./src/main/java/ch/zli/m223/UserApplication.java) laufen.
 
 ## Testdaten
 Der Server erzeugt beim Start auf Wunsch hin automatisch Testdaten.  
 Die Testdatenerzeugung finden sie in [ServerInitialisation.java](./src/main/java/ch/zli/m223/init/ServerInitialisation.java), die Steuerung ob Testdaten erzeugt weden oder nicht in [application.properties](./src/main/resources/application.properties).
 
-## REST-API Test
+## REST-API Tests
 Sie finden die passenden Postman-Scripts im './src/test/postman' Verzeichnis. 
 - [Register](./src/test/postman/Register.postman_collection.json)
 - [Login](./src/test/postman/Login.postman_collection.json)
