@@ -1,9 +1,8 @@
-# Ticketing Application
-Das Ziel der Applikation ist es ein Backend mit einem REST-Interface zu erstellen. Als Beispiel soll eine Benutzerverwaltung erstellt werden welche anschliessend für die Authentifizierung und Authorisierung verwendet werden kann.  
-Aufbauend auf dieser Implementierung soll anschliessend ein Sicherheitsmechanismus auf der Basis von [JSON Web Token](https://jwt.io/) implementiert werden.
+# Coworking Space
+Das Ziel der Applikation ist es ein Backend mit einem REST-Interface zu erstellen. Die Applikation verwaltet Buchungen für ein Coworking Space. Benutzer können sich registrieren, einloggen und Buchungen erstellen oder verwalten. Administratoren haben erweiterte Rechte und können alle Buchungen einsehen und verwalten. Die Sicherheitsmechanismen basieren auf [JSON Web Token](https://jwt.io/).
 
 ## Projekt aufsetzen
-Das Projekt kann von [GitHub](https://github.com/maexeler/ticketing_app) heruntergeladen werden.
+Das Projekt kann von [GitHub](https://github.com/MarcoSpinaBZZ/Multi-User-Applikation) heruntergeladen werden.
 
 ## Applikationsdokumentation
 Die Applikationsdokumentation finden sie im Ordner [./doc](./doc/appDoc.md).
