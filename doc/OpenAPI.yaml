@@ -1,0 +1,258 @@
+openapi: 3.0.0
+info:
+  title: Coworking Space Booking API
+  version: 1.0.0
+  description: API zur Verwaltung von Buchungen in einem Coworking Space.
+
+paths:
+  /api/v1/member/bookings:
+    post:
+      summary: Eigene Buchung erstellen
+      description: Erstellen einer neuen Buchung für das Mitglied.
+      responses:
+        '200':
+          description: Buchung erfolgreich erstellt
+        '400':
+          description: Ungültige Eingabedaten
+        '403':
+          description: Zugriff verweigert (kein Mitglied)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                bookingDate:
+                  type: string
+                  format: date
+                  example: "2024-07-24"
+                duration:
+                  type: string
+                  enum: [MORNING, AFTERNOON, FULL_DAY]
+                  example: MORNING
+    get:
+      summary: Eigene Buchungen abrufen
+      description: Abrufen der eigenen Buchungen des Mitglieds.
+      responses:
+        '200':
+          description: Liste der Buchungen zurückgegeben
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Booking'
+        '403':
+          description: Zugriff verweigert (kein Mitglied)
+
+  /api/v1/member/bookings/{id}:
+    delete:
+      summary: Eigene Buchung stornieren
+      description: Stornieren einer eigenen zukünftigen Buchung.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Die ID der zu stornierenden Buchung.
+      responses:
+        '200':
+          description: Buchung erfolgreich storniert
+        '400':
+          description: Buchung nicht gefunden
+        '403':
+          description: Zugriff verweigert (kein Mitglied)
+
+  /api/v1/admin/bookings:
+    get:
+      summary: Alle Buchungen abrufen
+      description: Abrufen aller Buchungen.
+      responses:
+        '200':
+          description: Liste aller Buchungen zurückgegeben
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Booking'
+        '403':
+          description: Zugriff verweigert (kein Administrator)
+    post:
+      summary: Buchung hinzufügen
+      description: Hinzufügen einer neuen Buchung.
+      responses:
+        '200':
+          description: Buchung erfolgreich hinzugefügt
+        '400':
+          description: Ungültige Eingabedaten
+        '403':
+          description: Zugriff verweigert (kein Administrator)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: integer
+                  example: 2
+                bookingDate:
+                  type: string
+                  format: date
+                  example: "2024-07-24"
+                duration:
+                  type: string
+                  enum: [MORNING, AFTERNOON, FULL_DAY]
+                  example: MORNING
+
+  /api/v1/admin/bookings/{id}:
+    get:
+      summary: Einzelne Buchungen abrufen
+      description: Abrufen einzelner Buchung.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Die ID der abzurufenden Buchung.
+      responses:
+        '200':
+          description: Buchung zurückgegeben
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Booking'
+        '400':
+          description: Buchung nicht gefunden
+        '403':
+          description: Zugriff verweigert (kein Administrator)
+    delete:
+      summary: Jegliche Buchung löschen
+      description: Löschen einer spezifischen Buchung.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Die ID der zu löschenden Buchung.
+      responses:
+        '200':
+          description: Buchung erfolgreich gelöscht
+        '404':
+          description: Buchung nicht gefunden
+        '403':
+          description: Zugriff verweigert (kein Administrator)
+    put:
+      summary: Buchungen aktualisieren
+      description: Aktualisieren einer spezifischen Buchung.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Die ID der zu aktualisierenden Buchung.
+      responses:
+        '200':
+          description: Buchung erfolgreich aktualisiert
+        '400':
+          description: Ungültige Eingabedaten
+        '403':
+          description: Zugriff verweigert (kein Administrator)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                bookingDate:
+                  type: string
+                  format: date
+                  example: "2024-07-24"
+                duration:
+                  type: string
+                  enum: [MORNING, AFTERNOON, FULL_DAY]
+                  example: MORNING
+                status:
+                  type: string
+                  enum: [PENDING, CONFIRMED, REJECTED]
+                  example: PENDING
+
+  /api/v1/admin/bookings/user/{userId}:
+    get:
+      summary: Buchungen nach User abrufen
+      description: Holt alle Buchungen eines bestimmten Benutzers anhand seiner Benutzer-ID.
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Die ID des Benutzers.
+      responses:
+        '200':
+          description: Buchungen zurückgegeben
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Booking'
+        '400':
+          description: User nicht gefunden
+        '403':
+          description: Zugriff verweigert (kein Administrator)
+
+  /api/v1/admin/date/{date}:
+    get:
+      summary: Buchungen nach Datum abrufen
+      description: Holt alle Buchungen an einem bestimmten Datum.
+      parameters:
+        - name: date
+          in: path
+          required: true
+          schema:
+            type: string
+            format: date
+          description: Das Datum der Buchungen (Format: YYYY-MM-DD).
+      responses:
+        '200':
+          description: Buchungen zurückgegeben
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Booking'
+        '400':
+          description: Buchung nicht gefunden
+        '403':
+          description: Zugriff verweigert (kein Administrator)
+
+components:
+  schemas:
+    Booking:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        userId:
+          type: integer
+          example: 2
+        bookingDate:
+          type: string
+          format: date
+          example: "2024-07-24"
+        duration:
+          type: string
+          enum: [MORNING, AFTERNOON, FULL_DAY]
+          example: MORNING
+        status:
+          type: string
+          enum: [PENDING, CONFIRMED, REJECTED]
+          example: PENDING
